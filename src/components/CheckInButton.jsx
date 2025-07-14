@@ -1,9 +1,12 @@
-// import React, { useContext, useEffect, useState } from 'react';
+
+
+// import React, { useContext, useState } from 'react';
 // import { LocationContext } from '../context/LocationContext';
 // import { AuthContext } from '../context/AuthContext';
 
+// // Haversine formula to calculate distance between two coordinates
 // const calculateDistance = (lat1, lon1, lat2, lon2) => {
-//   const R = 6371e3;
+//   const R = 6371e3; // meters
 //   const toRad = deg => (deg * Math.PI) / 180;
 //   const dLat = toRad(lat2 - lat1);
 //   const dLon = toRad(lon2 - lon1);
@@ -16,32 +19,10 @@
 // };
 
 // const CheckInButton = () => {
-//   const {
-//     position,
-//     address,
-//     checkInTarget,
-//     setCheckInTarget,
-//     setAddress,
-//   } = useContext(LocationContext);
-
-//   const {
-//     user,
-//     updateCheckIn,
-//     removeCheckIn,
-//     checkIns
-//   } = useContext(AuthContext);
+//   const { position, address, checkInTarget } = useContext(LocationContext);
+//   const { user, updateCheckIn, removeCheckIn, checkIns } = useContext(AuthContext);
 
 //   const [message, setMessage] = useState('');
-
-//   useEffect(() => {
-//     if (position && !checkInTarget) {
-//       setCheckInTarget({
-//         lat: position[0],
-//         lng: position[1],
-//         radius: 100,
-//       });
-//     }
-//   }, [position, checkInTarget, setCheckInTarget]);
 
 //   const handleCheckIn = () => {
 //     if (!position || !checkInTarget) {
@@ -65,13 +46,13 @@
 //       if (user?.id) {
 //         const cleanedAddress = address.replace(/^📌 (Approx\.)?Address:\s*/, '').trim();
 
-//        updateCheckIn(user.id, {
-//   lat: position[0],
-//   lng: position[1],
-//   address: cleanedAddress,
-//   time: new Date().toLocaleTimeString(),
-//   radius: checkInTarget.radius, // ✅ ADD THIS LINE
-// });
+//         updateCheckIn(user.id, {
+//           lat: position[0],
+//           lng: position[1],
+//           address: cleanedAddress,
+//           time: new Date().toLocaleTimeString(),
+//           radius: checkInTarget.radius
+//         });
 //       }
 //     } else {
 //       setMessage(`❌ Too far to check-in. (${Math.round(distance)}m)`);
@@ -82,8 +63,6 @@
 //     if (user?.id) {
 //       removeCheckIn(user.id);
 //       setMessage("🚪 Checked out successfully.");
-//       setCheckInTarget(null);
-//       setAddress('');
 //     }
 //   };
 
@@ -128,6 +107,7 @@
 // };
 
 // export default CheckInButton;
+
 
 
 import React, { useContext, useState } from 'react';
@@ -175,14 +155,15 @@ const CheckInButton = () => {
 
       if (user?.id) {
         const cleanedAddress = address.replace(/^📌 (Approx\.)?Address:\s*/, '').trim();
-
-        updateCheckIn(user.id, {
-          lat: position[0],
-          lng: position[1],
-          address: cleanedAddress,
-          time: new Date().toLocaleTimeString(),
-          radius: checkInTarget.radius
-        });
+const encodedEmail = user.email.replace(/\./g, '_');
+updateCheckIn(encodedEmail, {
+  lat: position[0],
+  lng: position[1],
+  address: cleanedAddress,
+  time: new Date().toLocaleTimeString(),
+  date: new Date().toISOString().split("T")[0], // ✅ Add this line
+  radius: checkInTarget.radius
+});
       }
     } else {
       setMessage(`❌ Too far to check-in. (${Math.round(distance)}m)`);

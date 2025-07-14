@@ -63,3 +63,7 @@ p {
   color: red;
   font-weight: bold;
 }
+/* Ensure datepicker calendar appears above the map */
+.react-datepicker-popper {
+  z-index: 9999 !important;
+}
