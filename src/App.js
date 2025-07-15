@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, AuthContext } from './context/AuthContext';
+import AdminTimesheet from "./components/AdminTimesheet";
+
 import { LocationProvider } from './context/LocationContext';
 import Login from './components/LoginForm';
 import Register from './components/Register';
@@ -15,6 +17,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+          <Route path="/admin-timesheet" element={<AdminTimesheet />} />
       <Route
         path="/"
         element={

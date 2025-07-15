@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import { db } from "../firebase";
 import { ref, set, onValue, remove } from "firebase/database";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebase"; // ✅ make sure this is exported
+import { auth } from "../firebase";
 
 export const AuthContext = createContext();
 
@@ -12,24 +12,22 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [checkIns, setCheckIns] = useState({});
 
-  // ✅ Watch for auth changes
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
+        const email = firebaseUser.email.toLowerCase(); // ✅ normalize case
         setUser({
-          id: firebaseUser.email,
-          email: firebaseUser.email,
-          role: firebaseUser.email === "admin@gmail.com" ? "admin" : "user",
+          id: email,
+          email,
+          role: email === "admin@gmail.com" ? "admin" : "user", // ✅ case-insensitive match
         });
       } else {
         setUser(null);
       }
     });
-
     return () => unsub();
   }, []);
 
-  // 🔁 Load check-ins
   useEffect(() => {
     const checkInsRef = ref(db, "checkins/");
     onValue(checkInsRef, (snapshot) => {
@@ -60,3 +58,6 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+
+
