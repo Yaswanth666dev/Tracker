@@ -8,10 +8,9 @@ export const LocationProvider = ({ children }) => {
   const [path, setPath] = useState([]); // Path to show movement
 
   const [checkInTarget] = useState({
-     lat: 17.4356847,
-  lng: 78.4576043,
+   lat: 17.4318288,
+  lng:  78.4638163,
   radius: 100,
-  
   });
 
   return (
