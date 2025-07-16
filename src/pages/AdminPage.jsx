@@ -27,8 +27,8 @@ const locationIcon = new L.Icon({
 });
 
 const officeLocation = {
-  lat: 17.4362746,
-  lng: 78.4780249,
+  lat: 17.4360918,
+  lng: 78.4576179,
   radius: 100,
 };
 
